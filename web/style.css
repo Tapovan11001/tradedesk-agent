@@ -137,7 +137,7 @@ tfoot td { font-weight: 600; border-bottom: 0; border-top: 1px solid var(--line)
 }
 @media (max-width: 520px) { .fields { grid-template-columns: minmax(0, 1fr); } .sheet { padding: 14px; } }
 
-/* ---- "Created by Aarav Makhija" watermark + plain-language explainer ---- */
+/* ---- "Created by Aarov Makhija" watermark + plain-language explainer ---- */
 .made-by {
   position: fixed; z-index: 50;
   right: calc(12px + env(safe-area-inset-right, 0px));
