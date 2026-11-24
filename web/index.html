@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>TradeDesk</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="Cross-checks an export invoice against its packing list and flags mistakes before they reach customs.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800&family=JetBrains+Mono:wght@400;500&family=Source+Sans+3:wght@400;600&display=swap">
+<link rel="stylesheet" href="./style.css">
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="brand">
+      <h1>TradeDesk</h1>
+      <p>Checks an export invoice against its packing list before either reaches your CHA. Quantities, amounts, totals, HS codes, weights, IEC and Incoterms, line by line.</p>
+    </div>
+    <div class="mode" role="radiogroup" aria-label="Input">
+      <button id="mode-sample" class="seg on" role="radio" aria-checked="true">Sample documents</button>
+      <button id="mode-live" class="seg" role="radio" aria-checked="false">Paste your own</button>
+    </div>
+  </header>
+
+  <section id="sample-bar" class="bar" aria-label="Samples">
+    <span class="label">Sample shipment</span>
+    <div id="samples" class="chips"></div>
+    <span class="fine">Fictional companies. The checks are real code running in your browser.</span>
+  </section>
+
+  <section id="live-bar" class="live" hidden aria-label="Paste documents">
+    <div class="live-text">
+      <label class="label" for="raw">Invoice and packing list text</label>
+      <textarea id="raw" rows="12" spellcheck="false"></textarea>
+    </div>
+    <div class="live-side">
+      <label class="label" for="api-key">Anthropic API key</label>
+      <input id="api-key" type="password" autocomplete="off" placeholder="sk-ant-..." spellcheck="false">
+      <label class="label" for="model-id">Model</label>
+      <select id="model-id">
+        <option value="claude-opus-5-5">claude-opus-5-5</option>
+        <option value="claude-sonnet-5-5">claude-sonnet-5-5</option>
+      </select>
+      <button id="run" class="primary">Check documents</button>
+      <p class="fine">Claude reads the text and copies every field into the checker exactly as printed. The checker decides what's wrong. Your key stays in this tab and goes only to api.anthropic.com.</p>
+      <p id="run-status" class="fine" aria-live="polite"></p>
+    </div>
+  </section>
+
+  <main class="grid">
+    <section class="docs" aria-label="Documents">
+      <div class="tabs" role="tablist">
+        <button id="tab-invoice" class="tab on" role="tab" aria-selected="true">Commercial invoice <span id="count-invoice" class="count"></span></button>
+        <button id="tab-packing" class="tab" role="tab" aria-selected="false">Packing list <span id="count-packing" class="count"></span></button>
+      </div>
+      <div id="doc" class="sheet"></div>
+    </section>
+
+    <aside class="report" aria-label="Findings">
+      <div id="verdict" class="verdict">
+        <div id="stamp" class="stamp">HOLD</div>
+        <p id="headline"></p>
+      </div>
+      <div class="actions">
+        <button id="fix" class="primary">Apply the fixes I can compute</button>
+        <button id="reset" class="ghost">Reset</button>
+      </div>
+      <ol id="issues" class="issues"></ol>
+      <div id="agent-out" class="agent-out" hidden>
+        <h2 class="label">Claude's report</h2>
+        <div id="agent-text"></div>
+      </div>
+    </aside>
+  </main>
+
+  <section class="how" aria-label="How it works">
+    <h2>How it works</h2>
+    <p>Exporters send two documents with every shipment: an invoice (what was sold, and for how much) and a packing list (what is inside the boxes). If they disagree, customs holds the shipment. TradeDesk compares them line by line. It checks that quantities match, that every amount and total adds up, that the HS codes (customs product categories) are the same on both, and that the weights make sense. Each problem is marked on the document itself, with the exact fix when it can be calculated. Paste real documents and Claude reads them and fills in the fields, then the same checks run on what it found.</p>
+  </section>
+
+  <footer class="foot">
+    <span>HS headings checked at the 6-digit level; confirm national lines against the current ITC-HS schedule.</span>
+    <a href="https://github.com/Tapovan11001/tradedesk-agent" target="_blank" rel="noopener">Source code on GitHub</a>
+  </footer>
+</div>
+<span class="made-by">Created by Aarav Makhija</span>
+<script type="module" src="./main.ts"></script>
+</body>
+</html>
